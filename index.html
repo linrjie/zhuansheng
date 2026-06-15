@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>广东专升本备考计划 · 420分冲刺</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <nav class="navbar">
+    <div class="nav-brand">📚 专升本 · 420冲刺</div>
+    <div class="nav-links">
+      <a href="#" class="nav-link active" data-page="dashboard">🏠 首页</a>
+      <a href="#" class="nav-link" data-page="plan">📋 学习计划</a>
+      <a href="#" class="nav-link" data-page="checkin">✅ 打卡</a>
+      <a href="#" class="nav-link" data-page="progress">📊 进度</a>
+      <a href="#" class="nav-link" data-page="stats">🏆 统计</a>
+    </div>
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+    <button class="theme-toggle" id="settingsBtn" title="设置">⚙️</button>
+  </nav>
+
+  <!-- ====== 首页 ====== -->
+  <div class="page active" id="page-dashboard">
+    <!-- 倒计时 -->
+    <section class="countdown-section">
+      <div class="countdown-card">
+        <h2>🎯 距离考试还有</h2>
+        <div class="countdown-numbers">
+          <div class="countdown-item"><span id="cd-days">--</span><label>天</label></div>
+          <div class="countdown-item"><span id="cd-hours">--</span><label>时</label></div>
+          <div class="countdown-item"><span id="cd-mins">--</span><label>分</label></div>
+          <div class="countdown-item"><span id="cd-secs">--</span><label>秒</label></div>
+        </div>
+        <p class="exam-date">考试日期：2027年3月27日（周六）</p>
+      </div>
+    </section>
+
+    <!-- 目标概览 -->
+    <section class="target-overview">
+      <h2>📌 目标分数分配</h2>
+      <div class="target-grid">
+        <div class="target-card math">
+          <div class="target-icon">📐</div>
+          <h3>高等数学</h3>
+          <div class="target-score">目标 <strong>85</strong>/100</div>
+          <div class="target-bar"><div class="target-fill" style="width:85%"></div></div>
+          <p>拉分关键科目</p>
+        </div>
+        <div class="target-card english">
+          <div class="target-icon">🔤</div>
+          <h3>英语</h3>
+          <div class="target-score">目标 <strong>85</strong>/100</div>
+          <div class="target-bar"><div class="target-fill" style="width:85%"></div></div>
+          <p>每日积累不可断</p>
+        </div>
+        <div class="target-card politics">
+          <div class="target-icon">📕</div>
+          <h3>政治理论</h3>
+          <div class="target-score">目标 <strong>80</strong>/100</div>
+          <div class="target-bar"><div class="target-fill" style="width:80%"></div></div>
+          <p>后期冲刺性价比高</p>
+        </div>
+        <div class="target-card ds">
+          <div class="target-icon">💻</div>
+          <h3>数据结构</h3>
+          <div class="target-score">目标 <strong>170</strong>/200</div>
+          <div class="target-bar"><div class="target-fill" style="width:85%"></div></div>
+          <p>分值最高·重中之重</p>
+        </div>
+      </div>
+      <div class="total-target">总分目标：<strong>420</strong>/500（84%）</div>
+    </section>
+
+    <!-- 今日任务 -->
+    <section class="today-section">
+      <h2>📅 今日学习任务 <span id="todayDate"></span></h2>
+      <div class="today-tasks" id="todayTasks">
+        <!-- 动态生成 -->
+      </div>
+      <div class="today-checkin-status" id="todayCheckinStatus"></div>
+    </section>
+
+    <!-- 学习阶段 -->
+    <section class="phase-section">
+      <h2>🗺️ 备考路线图</h2>
+      <div class="timeline">
+        <div class="timeline-item active-phase" data-phase="1">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>第一阶段：夯实基础</h3>
+            <p class="phase-time">2026.06.15 - 2026.09.15（约90天）</p>
+            <ul>
+              <li>数学：教材逐章学习，课后习题全做</li>
+              <li>英语：背完核心3500词，语法基础</li>
+              <li>政治：通读教材，建立知识框架</li>
+              <li>数据结构：教材+视频，理解每种结构</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timeline-item" data-phase="2">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>第二阶段：强化提升</h3>
+            <p class="phase-time">2026.09.16 - 2026.12.31（约105天）</p>
+            <ul>
+              <li>数学：专题突破，真题分类练习</li>
+              <li>英语：阅读+完型专项，作文模板</li>
+              <li>政治：重点章节精读，选择题刷题</li>
+              <li>数据结构：算法题专项，代码手写</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timeline-item" data-phase="3">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>第三阶段：冲刺模拟</h3>
+            <p class="phase-time">2027.01.01 - 2027.03.27（约85天）</p>
+            <ul>
+              <li>数学：真题套卷+模拟卷，查漏补缺</li>
+              <li>英语：真题精做，作文背诵默写</li>
+              <li>政治：时政热点+大题背诵</li>
+              <li>数据结构：真题+模拟，代码默写</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ====== 学习计划 ====== -->
+  <div class="page" id="page-plan">
+    <section class="plan-header">
+      <h2>📋 每日学习计划</h2>
+      <p>基础薄弱同学的科学时间分配 · 每天8-10小时</p>
+    </section>
+
+    <!-- 阶段选择 -->
+    <div class="phase-tabs">
+      <button class="phase-tab active" data-phase="1">🌱 基础阶段</button>
+      <button class="phase-tab" data-phase="2">💪 强化阶段</button>
+      <button class="phase-tab" data-phase="3">🚀 冲刺阶段</button>
+    </div>
+
+    <div class="plan-content" id="planContent">
+      <!-- 动态生成 -->
+    </div>
+  </div>
+
+  <!-- ====== 打卡 ====== -->
+  <div class="page" id="page-checkin">
+    <section class="checkin-header">
+      <h2>✅ 每日打卡</h2>
+      <p>坚持就是胜利！记录你的每一天</p>
+    </section>
+
+    <div class="checkin-container">
+      <!-- 打卡日历 -->
+      <div class="checkin-calendar">
+        <div class="calendar-header">
+          <button id="prevMonth">◀</button>
+          <span id="calendarTitle"></span>
+          <button id="nextMonth">▶</button>
+        </div>
+        <div class="calendar-weekdays">
+          <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+        </div>
+        <div class="calendar-days" id="calendarDays"></div>
+        <div class="calendar-legend">
+          <span class="legend-item"><span class="legend-dot full"></span>全部完成</span>
+          <span class="legend-item"><span class="legend-dot partial"></span>部分完成</span>
+          <span class="legend-item"><span class="legend-dot none"></span>未打卡</span>
+        </div>
+      </div>
+
+      <!-- 今日打卡 -->
+      <div class="checkin-today">
+        <h3>📝 今日打卡 - <span id="checkinTodayDate"></span></h3>
+        <div class="checkin-subjects" id="checkinSubjects">
+          <!-- 动态生成 -->
+        </div>
+        <div class="checkin-notes">
+          <label>📝 学习笔记/心情：</label>
+          <textarea id="checkinNotes" placeholder="记录今天的学习心得、遇到的困难、或者鼓励自己的话..."></textarea>
+        </div>
+        <div class="checkin-time-track">
+          <label>⏱️ 今日学习时长（小时）：</label>
+          <input type="number" id="studyHours" min="0" max="16" step="0.5" value="8">
+        </div>
+        <button class="checkin-btn" id="checkinBtn">🎯 完成打卡</button>
+        <div class="checkin-result" id="checkinResult"></div>
+      </div>
+    </div>
+
+    <!-- 学习记录 -->
+    <section class="records-section">
+      <h3>📖 最近学习记录</h3>
+      <div class="records-list" id="recordsList"></div>
+    </section>
+  </div>
+
+  <!-- ====== 进度 ====== -->
+  <div class="page" id="page-progress">
+    <section class="progress-header">
+      <h2>📊 学习进度追踪</h2>
+      <p>各科知识点掌握情况</p>
+    </section>
+
+    <div class="progress-subjects" id="progressSubjects">
+      <!-- 动态生成 -->
+    </div>
+  </div>
+
+  <!-- ====== 统计 ====== -->
+  <div class="page" id="page-stats">
+    <section class="stats-header">
+      <h2>🏆 学习统计</h2>
+      <p>用数据见证你的成长</p>
+    </section>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">📅</div>
+        <div class="stat-value" id="statTotalDays">0</div>
+        <div class="stat-label">累计打卡天数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⏱️</div>
+        <div class="stat-value" id="statTotalHours">0</div>
+        <div class="stat-label">累计学习小时</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-value" id="statStreak">0</div>
+        <div class="stat-label">当前连续打卡</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🏅</div>
+        <div class="stat-value" id="statMaxStreak">0</div>
+        <div class="stat-label">最长连续打卡</div>
+      </div>
+    </div>
+
+    <div class="stats-detail">
+      <h3>📈 各科学习时长分布</h3>
+      <div class="chart-container">
+        <div class="bar-chart" id="barChart"></div>
+      </div>
+    </div>
+
+    <div class="stats-detail">
+      <h3>📊 每周学习趋势</h3>
+      <div class="weekly-chart" id="weeklyChart"></div>
+    </div>
+
+    <div class="stats-detail">
+      <h3>🎯 各科完成率</h3>
+      <div class="completion-chart" id="completionChart"></div>
+    </div>
+
+    <div class="stats-detail">
+      <h3>💡 学习建议</h3>
+      <div class="advice-card" id="adviceCard"></div>
+    </div>
+  </div>
+
+  <!-- 浮动按钮 -->
+  <button class="fab" id="fabCheckin" title="快速打卡">✅</button>
+
+  <!-- 同步状态 -->
+  <div class="sync-status" id="syncStatus">
+    <span class="sync-dot"></span>
+    <span class="sync-text">连接中...</span>
+  </div>
+
+  <!-- 设置弹窗 -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>⚙️ 云端同步设置</h3>
+        <button class="modal-close" onclick="document.getElementById('settingsModal').classList.remove('show')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;">
+          填入 Supabase 信息后，数据会自动同步到云端，其他设备填入相同信息即可访问。
+        </p>
+        <div class="setting-group">
+          <label>Project URL</label>
+          <input type="text" id="settingUrl" placeholder="https://xxxxx.supabase.co">
+        </div>
+        <div class="setting-group">
+          <label>API Key (anon public)</label>
+          <input type="text" id="settingKey" placeholder="eyJ...">
+        </div>
+        <button class="checkin-btn" id="saveSettings" style="margin-top:1rem;">💾 保存并连接</button>
+        <div id="settingsResult" style="margin-top:0.75rem;text-align:center;font-size:0.9rem;"></div>
+        <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,.06);">
+          <p style="font-size:0.82rem;color:var(--text-secondary);">
+            <strong>如何获取？</strong><br>
+            1. 打开 <a href="https://supabase.com/dashboard" target="_blank" style="color:var(--primary)">Supabase 控制台</a><br>
+            2. 进入你的项目 → Settings → API<br>
+            3. 复制 <strong>Project URL</strong> 和 <strong>anon public</strong> key
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 提示弹窗 -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle"></h3>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
