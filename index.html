@@ -268,11 +268,30 @@
 
   <!-- 浮动按钮 -->
   <button class="fab" id="fabCheckin" title="快速打卡">✅</button>
+  <button class="fab fab-log" id="fabLog" title="查看日志">📋</button>
 
   <!-- 同步状态 -->
   <div class="sync-status" id="syncStatus">
     <span class="sync-dot"></span>
     <span class="sync-text">连接中...</span>
+  </div>
+
+  <!-- 日志弹窗 -->
+  <div class="modal-overlay" id="logModal">
+    <div class="modal" style="max-width:600px;">
+      <div class="modal-header">
+        <h3>📋 运行日志</h3>
+        <button class="modal-close" onclick="document.getElementById('logModal').classList.remove('show')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="log-toolbar">
+          <button class="log-btn" id="logClear">🗑️ 清空</button>
+          <button class="log-btn" id="logTest">🔗 测试连接</button>
+          <button class="log-btn" id="logCopy">📋 复制</button>
+        </div>
+        <div class="log-output" id="logOutput"></div>
+      </div>
+    </div>
   </div>
 
   <!-- 设置弹窗 -->

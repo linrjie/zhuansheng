@@ -6,6 +6,90 @@ const STORAGE_KEY = 'zhuansheng_data';
 // Supabase 连接状态
 let isOnline = false;
 
+// ====== 日志系统 ======
+const appLogs = [];
+
+function addLog(level, msg) {
+  const now = new Date();
+  const time = now.toLocaleTimeString('zh-CN');
+  appLogs.push({ time, level, msg });
+  // 保留最近100条
+  if (appLogs.length > 100) appLogs.shift();
+  // 同步到控制台
+  const fn = level === 'err' ? 'error' : level === 'warn' ? 'warn' : 'log';
+  console[fn](`[${time}] ${msg}`);
+}
+
+function renderLogs() {
+  const el = document.getElementById('logOutput');
+  if (!el) return;
+  if (appLogs.length === 0) {
+    el.innerHTML = '<span style="color:#64748b">暂无日志，点击「测试连接」开始</span>';
+    return;
+  }
+  el.innerHTML = appLogs.map(l => {
+    const cls = l.level === 'ok' ? 'log-ok' : l.level === 'err' ? 'log-err' : l.level === 'warn' ? 'log-warn' : 'log-info';
+    return `<span style="color:#64748b">[${l.time}]</span> <span class="${cls}">${l.msg}</span>`;
+  }).join('\n');
+  el.scrollTop = el.scrollHeight;
+}
+
+async function testConnection() {
+  addLog('info', '🔗 开始测试连接...');
+  const cfg = getSupabaseConfig();
+
+  if (!cfg.url || !cfg.key) {
+    addLog('err', '❌ 未配置 URL 或 Key');
+    renderLogs();
+    return;
+  }
+
+  addLog('info', `📡 URL: ${cfg.url}`);
+  addLog('info', `🔑 Key: ${cfg.key.substring(0, 15)}...`);
+  addLog('info', `🌐 浏览器: ${navigator.userAgent.substring(0, 80)}`);
+  addLog('info', `📍 当前地址: ${location.href}`);
+
+  try {
+    const testUrl = cfg.url + '/rest/v1/checkins?select=id&limit=1';
+    addLog('info', `📡 请求: ${testUrl}`);
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+
+    const resp = await fetch(testUrl, {
+      headers: {
+        'apikey': cfg.key,
+        'Authorization': 'Bearer ' + cfg.key,
+      },
+      signal: controller.signal
+    });
+
+    clearTimeout(timeout);
+
+    addLog('info', `📡 响应状态: ${resp.status} ${resp.statusText}`);
+
+    if (resp.ok) {
+      const data = await resp.json();
+      addLog('ok', `✅ 连接成功！返回 ${data.length} 条记录`);
+      isOnline = true;
+    } else {
+      const errText = await resp.text();
+      addLog('err', `❌ 请求失败: ${resp.status}`);
+      addLog('err', `❌ 响应: ${errText.substring(0, 200)}`);
+      isOnline = false;
+    }
+  } catch (e) {
+    addLog('err', `❌ 网络错误: ${e.message}`);
+    if (e.name === 'AbortError') {
+      addLog('warn', '⚠️ 请求超时（10秒），可能是网络问题');
+    }
+    addLog('info', '💡 可能原因：1) 网络不通 2) 被墙 3) DNS问题');
+    isOnline = false;
+  }
+
+  renderLogs();
+}
+
 // 科目配置
 const SUBJECTS = {
   math: { name: '高等数学', icon: '📐', color: '#6366f1', target: 85, total: 100, tagClass: 'tag-math' },
@@ -161,19 +245,18 @@ async function initSupabase() {
     textEl.textContent = '未配置云端';
     statusEl.classList.add('show');
     isOnline = false;
-    console.log('ℹ️ Supabase 未配置，使用本地存储。点击 ⚙️ 配置云端同步。');
+    addLog('warn', '⚠️ Supabase 未配置，使用本地存储');
     return;
   }
 
   try {
     updateApiConfig();
 
-    console.log('🔗 尝试连接:', API);
-    console.log('🔑 Key前10位:', cfg.key.substring(0, 10) + '...');
+    addLog('info', '🔗 自动连接 Supabase...');
+    addLog('info', `📡 URL: ${cfg.url}`);
 
     // 测试连接
     const result = await apiGet('checkins', 'select=id&limit=1');
-    console.log('✅ API返回:', result);
 
     isOnline = true;
     dotEl.className = 'sync-dot online';
@@ -181,20 +264,20 @@ async function initSupabase() {
     statusEl.classList.add('show');
     setTimeout(() => statusEl.classList.remove('show'), 3000);
 
+    addLog('ok', '✅ Supabase 连接成功');
+
     // 连接成功后，同步本地数据到云端
     await syncLocalToCloud();
     // 再从云端拉取最新
     await syncCloudToLocal();
 
-    console.log('✅ Supabase 连接成功');
   } catch (e) {
     isOnline = false;
     dotEl.className = 'sync-dot offline';
     textEl.textContent = '连接失败';
     statusEl.classList.add('show');
     setTimeout(() => statusEl.classList.remove('show'), 3000);
-    console.error('❌ Supabase 连接失败:', e.message);
-    console.error('❌ 完整错误:', e);
+    addLog('err', `❌ 连接失败: ${e.message}`);
   }
 }
 
@@ -967,6 +1050,34 @@ async function init() {
     renderCalendar();
     renderCheckinForm();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // 日志按钮
+  document.getElementById('fabLog').addEventListener('click', () => {
+    renderLogs();
+    document.getElementById('logModal').classList.add('show');
+  });
+  document.getElementById('logClear').addEventListener('click', () => {
+    appLogs.length = 0;
+    renderLogs();
+  });
+  document.getElementById('logTest').addEventListener('click', async () => {
+    await testConnection();
+  });
+  document.getElementById('logCopy').addEventListener('click', () => {
+    const text = appLogs.map(l => `[${l.time}] ${l.msg}`).join('\n');
+    navigator.clipboard.writeText(text).then(() => {
+      addLog('ok', '📋 已复制到剪贴板');
+      renderLogs();
+    }).catch(() => {
+      addLog('warn', '⚠️ 复制失败，请手动选中复制');
+      renderLogs();
+    });
+  });
+  document.getElementById('logModal').addEventListener('click', (e) => {
+    if (e.target.id === 'logModal') {
+      document.getElementById('logModal').classList.remove('show');
+    }
   });
 
   // 弹窗
