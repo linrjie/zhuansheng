@@ -187,10 +187,16 @@ const KNOWLEDGE_POINTS = {
 
 // ====== Supabase 配置管理 ======
 function getSupabaseConfig() {
-  return {
-    url: localStorage.getItem('sb_url') || DEFAULT_SUPABASE_URL || '',
-    key: localStorage.getItem('sb_key') || DEFAULT_SUPABASE_KEY || ''
-  };
+  let url = localStorage.getItem('sb_url') || '';
+  let key = localStorage.getItem('sb_key') || '';
+
+  // 如果 localStorage 中没有，或者存的是不能在浏览器用的 secret key，用默认值
+  if (!url || key.startsWith('sb_secret_')) {
+    url = DEFAULT_SUPABASE_URL || url;
+    key = DEFAULT_SUPABASE_KEY || key;
+  }
+
+  return { url, key };
 }
 
 function saveSupabaseConfig(url, key) {
