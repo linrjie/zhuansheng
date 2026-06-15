@@ -168,8 +168,12 @@ async function initSupabase() {
   try {
     updateApiConfig();
 
+    console.log('🔗 尝试连接:', API);
+    console.log('🔑 Key前10位:', cfg.key.substring(0, 10) + '...');
+
     // 测试连接
-    await apiGet('checkins', 'select=id&limit=1');
+    const result = await apiGet('checkins', 'select=id&limit=1');
+    console.log('✅ API返回:', result);
 
     isOnline = true;
     dotEl.className = 'sync-dot online';
@@ -189,7 +193,8 @@ async function initSupabase() {
     textEl.textContent = '连接失败';
     statusEl.classList.add('show');
     setTimeout(() => statusEl.classList.remove('show'), 3000);
-    console.warn('⚠️ Supabase 连接失败:', e.message);
+    console.error('❌ Supabase 连接失败:', e.message);
+    console.error('❌ 完整错误:', e);
   }
 }
 
@@ -1000,14 +1005,14 @@ async function init() {
     await initSupabase();
 
     if (isOnline) {
-      resultEl.textContent = '✅ 连接成功！数据已同步';
+      resultEl.innerHTML = '✅ 连接成功！数据已同步';
       resultEl.style.color = 'var(--success)';
       renderTodayTasks();
       renderCalendar();
       renderRecords();
       setTimeout(() => document.getElementById('settingsModal').classList.remove('show'), 1500);
     } else {
-      resultEl.textContent = '❌ 连接失败，请检查 URL 和 Key';
+      resultEl.innerHTML = '❌ 连接失败<br><span style="font-size:0.78rem;color:var(--text-secondary)">请检查：1) URL是否完整 2) Key是否正确 3) 数据库表是否已创建<br>按F12查看控制台详细错误</span>';
       resultEl.style.color = 'var(--danger)';
     }
   });
