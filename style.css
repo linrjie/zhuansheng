@@ -441,30 +441,33 @@ h3 { font-size: 1.15rem; margin-bottom: 0.75rem; }
 .checkin-subject {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  border-radius: var(--radius-sm);
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
   background: var(--bg);
   cursor: pointer;
   transition: all .2s;
   user-select: none;
+  min-height: 64px;
 }
 .checkin-subject:hover { background: var(--primary-bg); }
+.checkin-subject:active { transform: scale(0.98); }
 .checkin-subject.checked { background: var(--success-bg); }
-.checkin-subject .cs-icon { font-size: 1.3rem; }
+.checkin-subject .cs-icon { font-size: 1.6rem; }
 .checkin-subject .cs-info { flex: 1; }
-.checkin-subject .cs-info h4 { font-size: 0.9rem; }
-.checkin-subject .cs-info p { font-size: 0.78rem; color: var(--text-secondary); }
+.checkin-subject .cs-info h4 { font-size: 1rem; font-weight: 600; }
+.checkin-subject .cs-info p { font-size: 0.85rem; color: var(--text-secondary); }
 .checkin-subject .cs-check {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: 2px solid rgba(0,0,0,.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
+  font-size: 1rem;
   transition: all .2s;
+  flex-shrink: 0;
 }
 .checkin-subject.checked .cs-check {
   background: var(--success);
@@ -869,24 +872,39 @@ h3 { font-size: 1.15rem; margin-bottom: 0.75rem; }
 
 /* ====== 响应式 ====== */
 @media (max-width: 768px) {
-  .navbar { padding: 0 1rem; }
-  .nav-brand { margin-right: 1rem; font-size: 1rem; }
-  .nav-link { padding: 0.4rem 0.6rem; font-size: 0.8rem; }
+  .navbar { padding: 0 0.75rem; height: 56px; }
+  .nav-brand { margin-right: 0.75rem; font-size: 0.95rem; }
+  .nav-link { padding: 0.5rem 0.65rem; font-size: 0.82rem; }
   .page { padding: 1rem; }
-  .countdown-numbers { gap: 0.75rem; }
-  .countdown-item { padding: 0.75rem 1rem; min-width: 60px; }
-  .countdown-item span { font-size: 1.8rem; }
+  .countdown-numbers { gap: 0.5rem; }
+  .countdown-item { padding: 0.6rem 0.75rem; min-width: 55px; }
+  .countdown-item span { font-size: 1.6rem; }
   .checkin-container { grid-template-columns: 1fr; }
   .completion-chart { grid-template-columns: 1fr; }
   .bar { width: 35px; }
   .bar-chart { gap: 1rem; }
+  .checkin-subject { padding: 1.1rem 1rem; }
+  .checkin-subject .cs-icon { font-size: 1.5rem; }
+  .checkin-subject .cs-info h4 { font-size: 1.05rem; }
+  .checkin-notes textarea { min-height: 70px; font-size: 16px; }
+  .checkin-time-track input { font-size: 16px; padding: 0.6rem 0.75rem; }
+  .checkin-btn { padding: 1rem; font-size: 1.05rem; }
+  .fab { bottom: 1.5rem; right: 1.5rem; width: 52px; height: 52px; }
+  .fab-log { bottom: 4.5rem; width: 40px; height: 40px; font-size: 1.1rem; }
+  .sync-status { bottom: 4.5rem; right: 1.5rem; }
+  h2 { font-size: 1.25rem; }
 }
 
 @media (max-width: 480px) {
-  .nav-links { gap: 0; }
-  .nav-link { padding: 0.35rem 0.5rem; font-size: 0.75rem; }
-  .countdown-item span { font-size: 1.4rem; }
+  .nav-links { gap: 0; overflow-x: auto; }
+  .nav-link { padding: 0.4rem 0.5rem; font-size: 0.78rem; }
+  .countdown-item span { font-size: 1.3rem; }
+  .countdown-item { padding: 0.5rem 0.6rem; min-width: 48px; }
   .target-grid { grid-template-columns: 1fr; }
+  .checkin-subjects { gap: 0.85rem; }
+  .checkin-subject { padding: 1.15rem 1rem; gap: 0.85rem; }
+  .plan-task { flex-wrap: wrap; gap: 0.5rem; }
+  .knowledge-grid { grid-template-columns: 1fr; }
 }
 
 /* ====== 同步状态指示器 ====== */
